@@ -1,0 +1,35 @@
+mark@n-VoitovMR:~$ touch ex4.txt
+mark@n-VoitovMR:~$ script ex4.txt
+Script started, file is ex4.txt
+mark@n-VoitovMR:~$ mkdir abc
+mark@n-VoitovMR:~$ mkdir xyz
+mark@n-VoitovMR:~$ cd abc
+mark@n-VoitovMR:~/abc$ touch file.txt
+mark@n-VoitovMR:~/abc$ cd ../xyz
+mark@n-VoitovMR:~/xyz$ link ~/abc/file.txt file.txt
+mark@n-VoitovMR:~/abc$ ls -li ~/abc/file.txt
+16888498602757725 -rw-rw-rw- 2 mark mark 0 Nov 11 02:51 /home/mark/abc/file.txt
+mark@n-VoitovMR:~/abc$ cd ..
+mark@n-VoitovMR:~$ find ~/ -inum 16888498602757725
+/home/mark/abc/file.txt
+/home/mark/xyz/file.txt
+mark@n-VoitovMR:~$ find ~/ -inum 16888498602757725 -exec rm {} \;
+mark@n-VoitovMR:~$ find ~/ -inum 16888498602757725
+mark@n-VoitovMR:~$ history
+
+  255  mkdir abc
+  256  mkdir xyz
+  257  cd abc
+  258  touch file.txt
+  259  cd ../xyz
+  260  link ~/abc/file.txt file.txt
+  261  ls -li ~/abc/file.txt
+  262  cd ..
+  263  find ~/ -inum 16888498602757725
+  264  find ~/ -inum 16888498602757725 -exec rm {} \;
+  265  find ~/ -inum 16888498602757725
+  266  history
+
+mark@n-VoitovMR:~$ exit
+exit
+Script done, file is ex4.txt
