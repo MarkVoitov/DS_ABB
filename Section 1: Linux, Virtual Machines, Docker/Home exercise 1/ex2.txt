@@ -1,24 +1,24 @@
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ touch ex2.txt
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ exec 6<&0
-mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ exec < ex2.txt              # stdin çàìåíÿåòñÿ ôàéëîì "ex2.txt"
-mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ read a1                     # ×èòàåòñÿ ïåðâàÿ ñòðîêà èç "ex2.txt"
+mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ exec < ex2.txt              # stdin Ð·Ð°Ð¼ÐµÐ½ÑÐµÑ‚ÑÑ Ñ„Ð°Ð¹Ð»Ð¾Ð¼ "ex2.txt"
+mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ read a1                     # Ð§Ð¸Ñ‚Ð°ÐµÑ‚ÑÑ Ð¿ÐµÑ€Ð²Ð°Ñ ÑÑ‚Ñ€Ð¾ÐºÐ° Ð¸Ð· "ex2.txt"
 test1
-mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ read a2                     # ×èòàåòñÿ âòîðàÿ ñòðîêà èç "ex2.txt"
+mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ read a2                     # Ð§Ð¸Ñ‚Ð°ÐµÑ‚ÑÑ Ð²Ñ‚Ð¾Ñ€Ð°Ñ ÑÑ‚Ñ€Ð¾ÐºÐ° Ð¸Ð· "ex2.txt"
 test2
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo
 
-mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo "Ñòðîêè, ïðî÷èòàííûå èç ôàéëà"
-Ñòðîêè, ïðî÷èòàííûå èç ôàéëà
+mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo "Ð¡Ñ‚Ñ€Ð¾ÐºÐ¸, Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°"
+Ð¡Ñ‚Ñ€Ð¾ÐºÐ¸, Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo $a1
 test1
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo $a2
 test2
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ exec 0<%6 6<&-
-mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo -n "Ââåäèòå ñòðîêó"
-Ââåäèòå ñòðîêómark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ read b1        # Òåïåðü ôóíêöèÿ "read" ïðèíèìàåò äàííûå ñ îáû÷íîãî stdin
+mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo -n "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ"
+Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒmark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ read b1        # Ð¢ÐµÐ¿ÐµÑ€ÑŒ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ "read" Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ñ Ð¾Ð±Ñ‹Ñ‡Ð½Ð¾Ð³Ð¾ stdin
 test3
-mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo "Ñòðîêà, ïðèíÿòàÿ ñî stdin"
-Ñòðîêà, ïðèíÿòàÿ ñî stdin
+mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo "Ð¡Ñ‚Ñ€Ð¾ÐºÐ°, Ð¿Ñ€Ð¸Ð½ÑÑ‚Ð°Ñ ÑÐ¾ stdin"
+Ð¡Ñ‚Ñ€Ð¾ÐºÐ°, Ð¿Ñ€Ð¸Ð½ÑÑ‚Ð°Ñ ÑÐ¾ stdin
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ echo "b1 = $b1"
 b1 = test3
 mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ history
@@ -30,18 +30,18 @@ mark@n-VoitovMR:/mnt/c/Users/Mark.Voytov$ history
   414  read a1
   415  read a2
   416  echo
-  417  echo "Ñòðîêè, ïðî÷èòàííûå èç ôàéëà"
+  417  echo "Ð¡Ñ‚Ñ€Ð¾ÐºÐ¸, Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°"
   418  echo $a1
   419  echo $a2
   420  exec 0<%6 6<&-
-  421  echo -n "Ââåäèòå ñòðîêó"
+  421  echo -n "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ"
   422  read b1
-  423  echo "Ñòðîêà, ïðèíÿòàÿ ñî stdin"
+  423  echo "Ð¡Ñ‚Ñ€Ð¾ÐºÐ°, Ð¿Ñ€Ð¸Ð½ÑÑ‚Ð°Ñ ÑÐ¾ stdin"
   424  echo "b1 = $b1"
   425  history
 
 
 
-Çàäàíèå íå ïîëó÷èëîñü çàâåðøèòü.
-Ïîíèìàþ, ÷òî ýòî íàäî ñâÿçàòü ñ êîìàíäîé exec.
-Íå ïîëó÷àåòñÿ îáåðíóòü ýòî â îáîëî÷êó, êîòîðàÿ ïîíèìàåò è âûïîëíÿåò êîìàíäû ñî stdin.
+Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ Ð½Ðµ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»Ð¾ÑÑŒ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ.
+ÐŸÐ¾Ð½Ð¸Ð¼Ð°ÑŽ, Ñ‡Ñ‚Ð¾ ÑÑ‚Ð¾ Ð½Ð°Ð´Ð¾ ÑÐ²ÑÐ·Ð°Ñ‚ÑŒ Ñ ÐºÐ¾Ð¼Ð°Ð½Ð´Ð¾Ð¹ exec.
+ÐÐµ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÑ‚ÑÑ Ð¾Ð±ÐµÑ€Ð½ÑƒÑ‚ÑŒ ÑÑ‚Ð¾ Ð² Ð¾Ð±Ð¾Ð»Ð¾Ñ‡ÐºÑƒ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð¿Ð¾Ð½Ð¸Ð¼Ð°ÐµÑ‚ Ð¸ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÑ‚ ÐºÐ¾Ð¼Ð°Ð½Ð´Ñ‹ ÑÐ¾ stdin.
