@@ -1,0 +1,121 @@
+Step 1 - Running A Container
+The first task is to identify the name of the Docker Image which is configured to run Redis. With Docker, all containers are started based on a Docker Image. These images contain everything required to launch the process; the host doesn't require any configuration or dependencies.
+Jane can find existing images at registry.hub.docker.com/ or by using the command docker search <name>. For example, to find an image for Redis, you would use docker search redis.
+Task
+Using the search command, Jane has identified that the Redis Docker Image is called redis and wants to run the latest release. Because Redis is a database, Jane wants to run it as a background service while she continues to work.
+To complete this step, launch a container in the background running an instance of Redis based on the official image.
+The Docker CLI has a command called run which will start a container based on a Docker Image. The structure is docker run <options> <image-name>.
+By default, Docker will run a command in the foreground. To run in the background, the option -d needs to be specified.
+docker run -d redis
+By default, Docker will run the latest version available. If a particular version was required, it could be specified as a tag, for example, version 3.2 would be docker run -d redis:3.2.
+As this is the first time Jane is using the Redis image, it will be downloaded onto the Docker Host machine.
+
+Your Interactive Bash Terminal. A safe place to learn and execute commands.
+$
+$ docker search redis
+NAME                             DESCRIPTION          STARS               OFFICIAL            AUTOMATED
+redis                            Redis is an open source key-value store that…   8767                [OK]
+bitnami/redis                    Bitnami Redis Docker Image          167                                     [OK]
+sameersbn/redis          82                                      [OK]
+grokzen/redis-cluster            Redis cluster 3.0, 3.2, 4.0, 5.0, 6.0          72
+rediscommander/redis-commander   Alpine image for redis-commander - Redis man…   47                                      [OK]
+kubeguide/redis-master           redis-master with "Hello World!"          33
+redislabs/redisearch             Redis With the RedisSearch module pre-loaded…   29
+redislabs/redis                  Clustered in-memory database engine compatib…   27
+oliver006/redis_exporter          Prometheus Exporter for Redis Metrics. Supp…   22
+redislabs/rejson                 RedisJSON - Enhanced JSON data type processi…   22
+arm32v7/redis                    Redis is an open source key-value store that…   21
+bitnami/redis-sentinel           Bitnami Docker Image for Redis Sentinel         17                                      [OK]
+redislabs/redisinsight           RedisInsight - The GUI for Redis          14
+redislabs/redisgraph             A graph database module for Redis          12                                      [OK]
+webhippie/redis                  Docker images for Redis          11                                      [OK]
+arm64v8/redis                    Redis is an open source key-value store that…   10
+s7anley/redis-sentinel-docker    Redis Sentinel          10                                      [OK]
+insready/redis-stat              Docker image for the real-time Redis monitor…   9                                       [OK]
+redislabs/redismod               An automated build of redismod - latest Redi…   7                                       [OK]
+centos/redis-32-centos7          Redis in-memory data structure store,used a…   5
+circleci/redis                   CircleCI images for Redis          5                                       [OK]
+clearlinux/redis                 Redis key-value data structure serverwith t…   3
+tiredofit/redis                  Redis Server w/ Zabbix monitoring andS6 Ove…   1                                       [OK]
+wodby/redis                      Redis container image with orchestration        1                                       [OK]
+xetamus/redis-resource           forked redis-resource          0                                       [OK]
+$ docker run -d redis
+23eb998f70431ae453495d13dd1c77ac7b8daeeaec8fdc696ad2e5b86af1446e
+
+
+
+
+Step 2 - Finding Running Containers
+The launched container is running in the background, the docker ps command lists all running containers, the image used to start the container and uptime.
+This command also displays the friendly name and ID that can be used to find out information about individual containers.
+The command docker inspect <friendly-name|container-id> provides more details about a running container, such as IP address.
+The command docker logs <friendly-name|container-id> will display messages the container has written to standard error or standard out.
+
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+23eb998f7043        redis               "docker-entrypoint.s…"   5 minutes ago       Up 5minutes        6379/tcp            practical_curie
+
+
+
+Step 3 - Accessing Redis
+Jane is happy that Redis is running, but is surprised that she cannot access it. The reason is that each container is sandboxed. If a service needs to be accessible by a process not running in a container, then the port needs to be exposed via the Host.
+Once exposed, it is possible to access the process as if it were running on the host OS itself.
+Jane knows that by default, Redis runs on port 6379. She has learned that by default other applications and library expect a Redis instance to be listening on the port.
+Task
+After reading the documentation, Jane discovers that ports are bound when containers are started using -p <host-port>:<container-port> option. Jane also discovers that it's useful to define a name when starting the container, this means she doesn't have to use Bash piping or keep looking up the name when trying to access the logs.
+Jane finds the best way to solve her problem of running Redis in the background, with a name of redisHostPort on port 6379 is using the following command docker run -d --name redisHostPort -p 6379:6379 redis:latest
+Protip
+By default, the port on the host is mapped to 0.0.0.0, which means all IP addresses. You can specify a particular IP address when you define the port mapping, for example, -p 127.0.0.1:6379:6379
+
+$ docker run -d --name redisHostPort -p 6379:6379 redis:latest
+2b9cd6574c8574456b69273a85cb251f456982b6b3f07c4b267238c1ec726979
+
+
+
+Step 4 - Accessing Redis
+The problem with running processes on a fixed port is that you can only run one instance. Jane would prefer to run multiple Redis instances and configure the application depending on which port Redis is running on.
+Task
+After experimenting, Jane discovers that just using the option -p 6379 enables her to expose Redis but on a randomly available port. She decides to test her theory using docker run -d --name redisDynamic -p 6379 redis:latest
+While this works, she now doesn't know which port has been assigned. Thankfully, this is discovered via docker port redisDynamic 6379
+Jane also finds that listing the containers displays the port mapping information, docker ps.
+
+$ docker run -d --name redisDynamic -p 6379 redis:latest
+67a8dfe33c7d46c3f3692bb38622074afb19c8ee25e64b1c5673d4c4da6345e9
+$ docker port redisDynamic 6379
+0.0.0.0:32768
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUSPORTS                     NAMES
+67a8dfe33c7d        redis:latest        "docker-entrypoint.s…"   4 seconds ago        Up 1 second0.0.0.0:32768->6379/tcp   redisDynamic
+2b9cd6574c85        redis:latest        "docker-entrypoint.s…"   About a minute ago   Up About a minute0.0.0.0:6379->6379/tcp    redisHostPort
+23eb998f7043        redis               "docker-entrypoint.s…"   11 minutes ago       Up 11 minutes6379/tcp                  practical_curie
+
+
+
+Step 5 - Persisting Data
+After working with containers for a few days, Jane realises that the data stored keeps being removed when she deletes and re-creates a container. Jane needs the data to be persisted and reused when she recreates a container.
+Containers are designed to be stateless. Binding directories (also known as volumes) is done using the option -v <host-dir>:<container-dir>. When a directory is mounted, the files which exist in that directory on the host can be accessed by the container and any data changed/written to the directory inside the container will be stored on the host. This allows you to upgrade or change containers without losing your data.
+Task
+Using the Docker Hub documentation for Redis, Jane has investigated that the official Redis image stores logs and data into a /data directory.
+Any data which needs to be saved on the Docker Host, and not inside containers, should be stored in /opt/docker/data/redis.
+The complete command to solve the task is docker run -d --name redisMapped -v /opt/docker/data/redis:/data redis
+Protip
+Docker allows you to use $PWD as a placeholder for the current directory.
+
+$ docker run -d --name redisMapped -v /opt/docker/data/redis:/data redis
+2c7e803ed4d611441cd4789008591a4131f4b67a163b768171aac1233b231d49
+
+
+
+Step 6 - Running A Container In The Foreground
+Jane has been working with Redis as a background process. Jane wonders how containers work with foreground processes, such as ps or bash.
+Previously, Jane used the -d to execute the container in a detached, background, state. Without specifying this, the container would run in the foreground. If Jane wanted to interact with the container (for example, to access a bash shell) she could include the options -it.
+As well as defining whether the container runs in the background or foreground, certain images allow you to override the command used to launch the image. Being able to replace the default command makes it possible to have a single image that can be re-purposed in multiple ways. For example, the Ubuntu image can either run OS commands or run an interactive bash prompt using /bin/bash
+Example
+The command docker run ubuntu ps launches an Ubuntu container and executes the command ps to view all the processes running in a container.
+Using docker run -it ubuntu bash allows Jane to get access to a bash shell inside of a container.
+
+$ docker run ubuntu ps
+  PID TTY          TIME CMD
+    1 ?        00:00:00 ps
+$ docker run -it ubuntu bash
+root@9ac00434ed30:/#
