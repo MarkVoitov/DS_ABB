@@ -1,3 +1,12 @@
+In this first scenario, you'll take the role of Jane, a developer who needs to deploy a new Key-Value Store for an application she's working with. After discussions, it's been decided to use Redis, a popular KV Store.
+Jane is unfamiliar with how Redis is deployed but has heard Docker makes it straightforward to deploy services into development and production.
+This scenario discusses how she will complete her task and deploy Redis as a Docker Container.
+Jane's development environment has access to latest version of the Docker Engine via a machine called docker. Her local dev machine has the Docker Client installed and accessible via the command line.
+
+What Is Docker?
+Docker describes themselves as "an open platform for developers and sysadmins to build, ship, and run distributed applications".
+Docker allows you to run containers. A container is a sandboxed process running an application and its dependencies on the host operating system. The application inside the container considers itself to be the only process running on the machine while the machine can run multiple containers independently.
+
 Step 1 - Running A Container
 The first task is to identify the name of the Docker Image which is configured to run Redis. With Docker, all containers are started based on a Docker Image. These images contain everything required to launch the process; the host doesn't require any configuration or dependencies.
 Jane can find existing images at registry.hub.docker.com/ or by using the command docker search <name>. For example, to find an image for Redis, you would use docker search redis.
