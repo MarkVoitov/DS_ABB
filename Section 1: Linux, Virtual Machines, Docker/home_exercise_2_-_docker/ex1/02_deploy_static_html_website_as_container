@@ -1,0 +1,66 @@
+In this scenario, you'll learn how to create a Docker Image for running a static HTML website using Nginx. The scenario will explain how to build a Docker Image running Nginx with your HTML site.
+The aim is to help you understand how to create and run Docker Images created by yourself.
+
+
+
+
+Step 1 - Create Dockerfile
+Docker Images start from a base image. The base image should include the platform dependencies required by your application, for example, having the JVM or CLR installed.
+This base image is defined as an instruction in the Dockerfile. Docker Images are built based on the contents of a Dockerfile. The Dockerfile is a list of instructions describing how to deploy your application.
+In this example, our base image is the Alpine version of Nginx. This provides the configured web server on the Linux Alpine distribution.
+Task
+Create your Dockerfile for building your image by copying the contents below into the editor.
+Copy to EditorFROM nginx:alpine
+COPY . /usr/share/nginx/html
+The first line defines our base image. The second line copies the content of the current directory into a particular location inside the container.
+
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+
+
+
+Step 2 - Build Docker Image
+The Dockerfile is used by the Docker CLI build command. The build command executes each instruction within the Dockerfile. The result is a built Docker Image that can be launched and run your configured app.
+The build command takes in some different parameters. The format is docker build -t <build-directory>. The -t parameter allows you to specify a friendly name for the image and a tag, commonly used as a version number. This allows you to track built images and be confident about which version is being started.
+Task
+Build our static HTML image using the build command below.
+docker build -t webserver-image:v1 .
+You can view a list of all the images on the host using docker images.
+The built image will have the name webserver-image with a tag of v1.
+
+Your Interactive Bash Terminal. A safe place to learn and execute commands.
+$
+$ docker build -t webserver-image:v1 .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM nginx:alpine
+ ---> e5dcd7aa4b5e
+Step 2/2 : COPY . /usr/share/nginx/html
+ ---> 77aaccb71be5
+Successfully built 77aaccb71be5
+Successfully tagged webserver-image:v1
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+webserver-image     v1                  77aaccb71be5        About a minute ago   21.8MB
+nginx               alpine              e5dcd7aa4b5e        11 days ago          21.8MB
+ubuntu              latest              16508e5c265d        2 years ago          84.1MB
+redis               latest              4e8db158f18d        2 years ago          83.4MB
+weaveworks/scope    1.9.1               4b07159e407b        2 years ago          68MB
+alpine              latest              11cd0b38bc3c        2 years ago          4.41MB
+
+
+
+Step 3 - Run
+The built Image can be launched in a consistent way to other Docker Images. When a container launches, it's sandboxed from other processes and networks on the host. When starting a container you need to give it permission and access to what it requires.
+For example, to open and bind to a network port on the host you need to provide the parameter -p <host-port>:<container-port>.
+Task
+Launch our newly built image providing the friendly name and tag. As it's a web server, bind port 80 to our host using the -p parameter.
+docker run -d -p 80:80 webserver-image:v1
+Once started, you'll be able to access the results of port 80 via curl docker
+To render the requests in the browser use the following links
+https://2886795288-80-ollie08.environments.katacoda.com/
+You now have a static HTML website being served by Nginx.
+
+$ docker run -d -p 80:80 webserver-image:v1
+7786d05b2daedc7abbac1a553168c46319bbaf192093393322443d7479b31e4e
+$ curl docker
+<h1>Hello World</h1>
