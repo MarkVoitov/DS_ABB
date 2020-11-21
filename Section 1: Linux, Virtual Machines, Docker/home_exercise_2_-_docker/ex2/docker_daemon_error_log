@@ -285,4 +285,32 @@ mark@n-VoitovMR:~$ sudo docker run hello-world
 docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?.
 See 'docker run --help'.
 
+
+
+
+mark@n-VoitovMR:~$ sudo apt-get remove docker docker-engine docker.io containerd runc
+[sudo] password for mark:
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Package 'docker-engine' is not installed, so not removed
+Package 'containerd' is not installed, so not removed
+Package 'runc' is not installed, so not removed
+Package 'docker' is not installed, so not removed
+Package 'docker.io' is not installed, so not removed
+0 upgraded, 0 newly installed, 0 to remove and 128 not upgraded.
+
+mark@n-VoitovMR:~$ sudo apt install docker.io
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+The following packages have unmet dependencies:
+ docker.io : Depends: containerd (>= 1.2.6-0ubuntu1~)
+E: Unable to correct problems, you have held broken packages.
+
 mark@n-VoitovMR:~$
