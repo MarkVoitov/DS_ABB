@@ -1,0 +1,16 @@
+yum install python36-devel
+
+cd ./code
+#pip3 install virtualenv
+pip install virtualenv
+
+virtualenv venv
+
+source venv/bin/activate
+
+pip install flask pysqlite3
+mkdir app
+pip freeze > app/requirements.txt
+
+#Проверьте работоспособность вашего приложения, запустив его командой
+python ./app/app.py
